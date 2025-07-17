@@ -149,11 +149,13 @@ python -m inpainting.inpainting
 
 ## Results
 
-<p align="center">
-  <span style="display: inline-block; width: 30%; text-align: center;"><b>original img</b></span>
-  <span style="display: inline-block; width: 30%; text-align: center;"><b>edit1</b></span>
-  <span style="display: inline-block; width: 30%; text-align: center;"><b>edit2</b></span>
-</p>
+<table align="center">
+  <tr>
+    <td width="33%" align="center"><b>original img</b></td>
+    <td width="33%" align="center"><b>edit1</b></td>
+    <td width="33%" align="center"><b>edit2</b></td>
+  </tr>
+</table>
 
 <p align="center">
   <img src="materials/images/car1.png" alt="Car 1 Editing Result" width="30%"/>
