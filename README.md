@@ -16,7 +16,6 @@
 </p>
 
 
-
 <p align="center">
   <img src="materials/images/result1.png" alt="Result 1" width="45%"/>
   <img src="materials/images/result2.png" alt="Result 2" width="45%"/>
@@ -149,6 +148,44 @@ python -m inpainting.inpainting
 ```
 
 ## Results
+
+<p align="center">
+  <span style="display: inline-block; width: 30%; text-align: center;"><b>original img</b></span>
+  <span style="display: inline-block; width: 30%; text-align: center;"><b>edit1</b></span>
+  <span style="display: inline-block; width: 30%; text-align: center;"><b>edit2</b></span>
+</p>
+
+<p align="center">
+  <img src="materials/images/car1.png" alt="Car 1 Editing Result" width="30%"/>
+  <img src="materials/images/car1_back.png" alt="Car 1 Back View" width="30%"/>
+  <img src="materials/images/car1_opposite.png" alt="Car 1 Opposite View" width="30%"/>
+</p>
+
+<p align="center">
+  <img src="materials/images/car2.png" alt="Car 2 Editing Result" width="30%"/>
+  <img src="materials/images/car2_front.png" alt="Car 2 Front View" width="30%"/>
+  <img src="materials/images/car2_right.png" alt="Car 2 Right View" width="30%"/>
+</p>
+
+<p align="center">
+  <img src="materials/images/mecha1.png" alt="Mecha 1 Editing Result" width="30%"/>
+  <img src="materials/images/mecha1_front.png" alt="Mecha 1 Front View" width="30%"/>
+  <img src="materials/images/mecha1_small_legsopen.png" alt="Mecha 1 Legs Open" width="30%"/>
+</p>
+
+<p align="center">
+  <img src="materials/images/mecha2.png" alt="Mecha 2 Result" width="30%"/>
+  <img src="materials/images/mecha2_kick.png" alt="Mecha 2 Kick Action" width="30%"/>
+  <img src="materials/images/mecha2_run.png" alt="Mecha 2 Run Action" width="30%"/>
+</p>
+
+<p align="center">
+  <img src="materials/images/robot2.png" alt="Robot 2 Editing Result" width="30%"/>
+  <img src="materials/images/robot2_dance.png" alt="Robot 2 Dance Action" width="30%"/>
+  <img src="materials/images/robot2_danceright.png" alt="Robot 2 Dance Right" width="30%"/>
+</p>
+
+### Performance
 
 Our method achieves state-of-the-art performance in:
 - 2D instance editing quality
