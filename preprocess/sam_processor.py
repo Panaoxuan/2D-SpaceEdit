@@ -6,6 +6,7 @@ from PIL import Image
 import os
 import requests
 from tqdm import tqdm
+import argparse
 
 def download_sam_checkpoint(save_path, url):
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
@@ -20,18 +21,23 @@ def download_sam_checkpoint(save_path, url):
                     pbar.update(len(chunk))
     print(f"Downloaded to {save_path}")
 
-def ensure_sam_checkpoint():
-    ckpt_path = "/home/liushuzhi/pax/2.5d_editing/checkpoints/sam/sam_vit_h_4b8939.pth"
+def ensure_sam_checkpoint(checkpoint_dir="checkpoints/sam"):
+    """确保SAM检查点文件存在"""
+    ckpt_path = os.path.join(checkpoint_dir, "sam_vit_h_4b8939.pth")
     url = "https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth"
     if not os.path.exists(ckpt_path):
         print(f"SAM checkpoint not found at {ckpt_path}. Downloading...")
         download_sam_checkpoint(ckpt_path, url)
     else:
         print(f"SAM checkpoint found at {ckpt_path}.")
+    return ckpt_path
 
 class SimplifiedSAMProcessor:
-    def __init__(self, model_type="vit_h", checkpoint_path="/home/liushuzhi/pax/2.5d_editing/checkpoints/sam/sam_vit_h_4b8939.pth", max_display_size=800, output_base_dir="/home/liushuzhi/pax/2.5d_editing/outputs"):
+    def __init__(self, model_type="vit_h", checkpoint_path=None, max_display_size=800, output_base_dir="outputs"):
         """初始化SAM模型"""
+        if checkpoint_path is None:
+            checkpoint_path = ensure_sam_checkpoint()
+        
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         print(f"Using device: {self.device}")
         
@@ -556,26 +562,36 @@ class SimplifiedSAMProcessor:
         cv2.destroyAllWindows()
 
 def main():
-    # 查找图像文件
-    image_path = "/home/liushuzhi/pax/2.5d_editing/car.jpg"
+    parser = argparse.ArgumentParser(description="SAM Object Selector with interactive segmentation")
+    parser.add_argument("--input", "-i", type=str, help="Input image path")
+    parser.add_argument("--output_dir", "-o", type=str, default="outputs", help="Output directory (default: outputs)")
+    parser.add_argument("--checkpoint", "-c", type=str, help="SAM checkpoint path (default: checkpoints/sam/sam_vit_h_4b8939.pth)")
+    parser.add_argument("--max_size", "-s", type=int, default=800, help="Maximum display size (default: 800)")
     
-    if not os.path.exists(image_path):
-        # 自动查找图像文件
-        image_extensions = ('.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.webp')
-        current_images = [f for f in os.listdir('.') if f.lower().endswith(image_extensions)]
-        
-        if current_images:
-            image_path = current_images[0]
-            print(f"📸 自动选择图像: {image_path}")
-        else:
-            print("❌ 未找到图像文件！")
-            print("请将图像文件放在当前目录下")
+    args = parser.parse_args()
+    
+    # 处理输入图像路径
+    if args.input:
+        image_path = args.input
+        if not os.path.exists(image_path):
+            print(f"❌ 图像文件不存在: {image_path}")
             return
+    else:
+        print("❌ 请指定输入图像路径！")
+        print("使用方法: python sam_processor.py --input /path/to/image.jpg")
+        print("可选参数:")
+        print("  --output_dir: 输出目录 (默认: outputs)")
+        print("  --checkpoint: SAM检查点路径")
+        print("  --max_size: 最大显示尺寸 (默认: 800)")
+        return
     
     # 创建处理器并运行
-    processor = SimplifiedSAMProcessor(max_display_size=800)
+    processor = SimplifiedSAMProcessor(
+        checkpoint_path=args.checkpoint,
+        max_display_size=args.max_size,
+        output_base_dir=args.output_dir
+    )
     processor.process_image(image_path)
 
 if __name__ == "__main__":
-    ensure_sam_checkpoint()
     main()
